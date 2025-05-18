@@ -13,8 +13,13 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-//    @Override
+    @Override
     public void registerUser(RegistrationRequest registrationRequest) {
-        userRepository.save(new User(registrationRequest.email(), registrationRequest.fullName(), registrationRequest.password(), registrationRequest.phoneNumber()));
+        if(registrationRequest.location().isBlank()) {
+            userRepository.save(new User(registrationRequest.name(), registrationRequest.email(), registrationRequest.password()));
+        }
+        else {
+            userRepository.save(new User(registrationRequest.name(), registrationRequest.email(), registrationRequest.password(), registrationRequest.location()));
+        }
     }
 }
