@@ -1,4 +1,9 @@
 package com.caresync.service.auth.services.abstractions;
 
-public class UserService {
+import com.caresync.service.auth.dtos.request.RegistrationRequest;
+
+public interface UserService {
+
+    void registerUser(RegistrationRequest registrationRequest);
+
 }
