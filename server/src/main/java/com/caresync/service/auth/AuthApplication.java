@@ -13,7 +13,7 @@ public class AuthApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) {
-		System.out.println("Hello World");
+		System.out.println("CareSync Auth Service");
 	}
 
 }
