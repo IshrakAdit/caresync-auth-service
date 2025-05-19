@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
             userRepository.save(new User(registrationRequest.name(), registrationRequest.email(), registrationRequest.password()));
         }
         else {
-            userRepository.save(new User(registrationRequest.name(), registrationRequest.email(), registrationRequest.password(), registrationRequest.location()));
+            userRepository.save(new User(registrationRequest.name(), registrationRequest.email(), registrationRequest.password()));
         }
     }
 }

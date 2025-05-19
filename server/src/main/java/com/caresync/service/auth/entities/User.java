@@ -28,14 +28,15 @@ public class User {
     @Size(min = 8, message = "Password must be at least 8 characters long")
     private String passwordHash;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @Size(max = 255, message = "Location must be at most 255 characters")
-    private String location;
+    private UserLocation location;
 
     public User(String name, String email, String passwordHash) {
         this(name, email, passwordHash, null);
     }
 
-    public User(String name, String email, String passwordHash, String location) {
+    public User(String name, String email, String passwordHash, UserLocation location) {
         this.name = name;
         this.email = email;
         this.passwordHash = passwordHash;
