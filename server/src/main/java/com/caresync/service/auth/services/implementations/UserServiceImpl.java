@@ -28,16 +28,17 @@ public class UserServiceImpl implements UserService {
                     .passwordHash(registrationRequest.password())
                     .build();
 
-            UserLocation newUserLocation = new UserLocation(
-                    newUser, registrationRequest.fullAddress().address(),
-                    registrationRequest.fullAddress().thana(),
-                    registrationRequest.fullAddress().po(),
-                    registrationRequest.fullAddress().city(),
-                    registrationRequest.fullAddress().postalCode());
+            UserLocation newUserLocation = UserLocation.builder().
+                    address(registrationRequest.fullAddress().address()).
+                    thana(registrationRequest.fullAddress().thana()).
+                    po(registrationRequest.fullAddress().po()).
+                    city(registrationRequest.fullAddress().city()).
+                    postalCode(registrationRequest.fullAddress().postalCode()).
+                    user(newUser)
+                    .build();
 
             newUser.setLocation(newUserLocation);
 
-            userLocationRepository.save(newUserLocation);
             userRepository.save(newUser);
         }
     }

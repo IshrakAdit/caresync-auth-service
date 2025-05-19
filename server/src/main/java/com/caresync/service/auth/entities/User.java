@@ -29,7 +29,6 @@ public class User {
     private String passwordHash;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Size(max = 255, message = "Location must be at most 255 characters")
     private UserLocation location;
 
     public User(String name, String email, String passwordHash) {
