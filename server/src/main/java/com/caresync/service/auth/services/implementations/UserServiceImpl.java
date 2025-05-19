@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void registerUser(RegistrationRequest registrationRequest) {
-        if(registrationRequest.address() == null) {
+        if(registrationRequest.fullAddress() == null) {
             userRepository.save(new User(registrationRequest.name(), registrationRequest.email(), registrationRequest.password()));
         }
         else {
@@ -29,11 +29,11 @@ public class UserServiceImpl implements UserService {
                     .build();
 
             UserLocation newUserLocation = new UserLocation(
-                    newUser, registrationRequest.address().address(),
-                    registrationRequest.address().thana(),
-                    registrationRequest.address().po(),
-                    registrationRequest.address().city(),
-                    registrationRequest.address().postalCode());
+                    newUser, registrationRequest.fullAddress().address(),
+                    registrationRequest.fullAddress().thana(),
+                    registrationRequest.fullAddress().po(),
+                    registrationRequest.fullAddress().city(),
+                    registrationRequest.fullAddress().postalCode());
 
             newUser.setLocation(newUserLocation);
 
