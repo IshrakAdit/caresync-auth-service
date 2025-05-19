@@ -1,6 +1,7 @@
 package com.caresync.service.auth.controllers;
 
 import com.caresync.service.auth.dtos.request.RegistrationRequest;
+import com.caresync.service.auth.dtos.response.UserResponse;
 import com.caresync.service.auth.services.abstractions.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
