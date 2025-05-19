@@ -19,6 +19,13 @@ public class UserControllerV1 {
         return ResponseEntity.ok("User service test successful");
     }
 
+    @GetMapping("/get/{userId}")
+    public ResponseEntity<UserResponse> getUserById(@PathVariable Long userId) {
+        UserResponse user = userService.getUserById(userId);
+        return ResponseEntity.ok(user);
+    }
+
+
     @PostMapping("/register")
     public ResponseEntity<Void> register(@Valid @RequestBody RegistrationRequest registrationRequest){
         userService.registerUser(registrationRequest);
