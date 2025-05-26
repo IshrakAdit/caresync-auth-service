@@ -5,7 +5,7 @@ import lombok.Builder;
 
 @Builder
 public record UserResponse(
-        Long id,
+        String id,
         String name,
         String email,
         AddressRequest fullAdress

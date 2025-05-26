@@ -13,8 +13,7 @@ import lombok.*;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     @NotBlank(message = "Name cannot be blank")
     @Size(min = 2, max = 100, message = "Name must be between 2 and 100 characters")
@@ -31,14 +30,8 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private UserLocation location;
 
-    public User(String name, String email, String passwordHash) {
-        this(name, email, passwordHash, null);
+    public User(String userId, String name, String email, String passwordHash) {
+        this(userId, name, email, passwordHash, null);
     }
 
-    public User(String name, String email, String passwordHash, UserLocation location) {
-        this.name = name;
-        this.email = email;
-        this.passwordHash = passwordHash;
-        this.location = location;
-    }
 }

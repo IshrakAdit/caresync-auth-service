@@ -1,5 +1,6 @@
 package com.caresync.service.auth.controllers;
 
+import com.caresync.service.auth.dtos.request.LoginRequest;
 import com.caresync.service.auth.dtos.request.RegistrationRequest;
 import com.caresync.service.auth.dtos.response.UserResponse;
 import com.caresync.service.auth.services.abstractions.UserService;
@@ -27,9 +28,8 @@ public class UserControllerV1 {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Void> login(@Valid @RequestBody RegistrationRequest registrationRequest){
-        userService.registerUser(registrationRequest);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<String> login(@Valid @RequestBody LoginRequest loginRequest){
+        return ResponseEntity.ok("User login test successful");
     }
 
     @PostMapping("/register")

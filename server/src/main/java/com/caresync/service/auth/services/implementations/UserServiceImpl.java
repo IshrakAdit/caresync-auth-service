@@ -45,14 +45,14 @@ public class UserServiceImpl implements UserService {
         return mapToResponse(user);
     }
 
-
     @Override
     public void registerUser(RegistrationRequest registrationRequest) {
         if(registrationRequest.fullAddress() == null) {
-            userRepository.save(new User(registrationRequest.name(), registrationRequest.email(), registrationRequest.password()));
+            userRepository.save(new User(registrationRequest.userId(), registrationRequest.name(), registrationRequest.email(), registrationRequest.password()));
         }
         else {
             User newUser = User.builder()
+                    .id(registrationRequest.userId())
                     .name(registrationRequest.name())
                     .email(registrationRequest.email())
                     .passwordHash(registrationRequest.password())
