@@ -19,8 +19,7 @@ public class UserLocation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "user_id", unique = true)
+    @OneToOne(mappedBy = "location")
     private User user;
 
     @NotBlank(message = "Address cannot be blank")

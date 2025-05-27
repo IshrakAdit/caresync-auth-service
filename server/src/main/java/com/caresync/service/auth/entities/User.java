@@ -27,11 +27,14 @@ public class User {
     @Size(min = 8, message = "Password must be at least 8 characters long")
     private String passwordHash;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "location_id")
     private UserLocation location;
 
     public User(String userId, String name, String email, String passwordHash) {
-        this(userId, name, email, passwordHash, null);
+        this.id = userId;
+        this.name = name;
+        this.email = email;
+        this.passwordHash = passwordHash;
     }
-
 }
