@@ -1,4 +1,4 @@
-CREATE TABLE user_location (
+CREATE TABLE user_locations (
                                id SERIAL PRIMARY KEY,
                                address VARCHAR(100) NOT NULL,
                                thana VARCHAR(100),
@@ -17,7 +17,7 @@ CREATE TABLE users (
 );
 
 -- Insert sample locations
-INSERT INTO user_location (address, thana, po, city, postal_code)
+INSERT INTO user_locations (address, thana, po, city, postal_code)
 VALUES
     ('123 Main St', 'Dhanmondi', 'PO123', 'Dhaka', '1209'),
     ('456 Park Rd', 'Banani', 'PO456', 'Dhaka', '1213');
