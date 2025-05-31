@@ -13,7 +13,7 @@ CREATE TABLE users (
                        email VARCHAR(255) UNIQUE NOT NULL,
                        password_hash VARCHAR(255) NOT NULL,
                        location_id INTEGER UNIQUE,
-                       CONSTRAINT fk_location FOREIGN KEY (location_id) REFERENCES user_location(id)
+                       CONSTRAINT fk_location FOREIGN KEY (location_id) REFERENCES user_locations(id)
 );
 
 -- Insert sample locations
