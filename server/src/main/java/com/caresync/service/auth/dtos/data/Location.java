@@ -1,26 +1,17 @@
-package com.caresync.service.auth.entities;
+package com.caresync.service.auth.dtos.data;
 
 import com.caresync.service.auth.enums.LocationType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Location {
-    @Id
+
     private String id;
 
-    @Enumerated(EnumType.STRING)
     private LocationType locationType;
 
     private String address;
@@ -32,6 +23,6 @@ public class Location {
 
     @NotBlank(message = "Postal code cannot be blank")
     private String postalCode;
+
     private String zoneId;
 }
-

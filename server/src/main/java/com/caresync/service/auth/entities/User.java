@@ -1,5 +1,6 @@
 package com.caresync.service.auth.entities;
 
+import com.caresync.service.auth.dtos.data.Location;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -11,6 +12,7 @@ import lombok.*;
 @Builder
 @Table(name = "users")
 public class User {
+
     @Id
     private String id;
 
@@ -23,20 +25,21 @@ public class User {
     @Email(message = "Provide a valid email")
     private String email;
 
-    @Column(nullable = false)
+    @Column(name = "password_hash", nullable = false)
     @NotBlank(message = "Password cannot be blank")
     @Size(min = 8, message = "Password must be at least 8 characters long")
     private String passwordHash;
 
-    @OneToOne
-    @JoinColumn(name = "location_id")
-    private Location location;
+    @Column(name = "location_id", unique = true)
+    private String locationId; // Just stores the foreign ID
+
+    @Transient
+    private Location location; // Optional: For mapping fetched location data
 
     public User(String userId, String name, String email, String passwordHash) {
         this.id = userId;
         this.name = name;
         this.email = email;
         this.passwordHash = passwordHash;
-        this.location = null;
     }
 }
