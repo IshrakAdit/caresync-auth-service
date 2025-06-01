@@ -1,6 +1,6 @@
 package com.caresync.service.auth.dtos.data;
 
-import com.caresync.service.auth.enums.LocationType;
+import com.caresync.service.auth.enums.LOCATION_TYPE;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
@@ -12,7 +12,7 @@ public class Location {
 
     private String id;
 
-    private LocationType locationType;
+    private LOCATION_TYPE locationType;
 
     private String address;
     private String thana;

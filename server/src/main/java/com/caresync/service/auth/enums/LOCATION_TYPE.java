@@ -1,5 +1,5 @@
 package com.caresync.service.auth.enums;
 
-public enum LocationType {
+public enum LOCATION_TYPE {
     USER, DOCTOR, HOSPITAL
 }
