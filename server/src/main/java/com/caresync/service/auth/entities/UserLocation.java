@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 public class UserLocation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     @OneToOne(mappedBy = "location")
     private User user;
