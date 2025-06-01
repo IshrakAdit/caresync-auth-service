@@ -9,3 +9,4 @@ COPY . .
 EXPOSE 8081
 
 CMD ["./mvnw", "spring-boot:run"]
+
