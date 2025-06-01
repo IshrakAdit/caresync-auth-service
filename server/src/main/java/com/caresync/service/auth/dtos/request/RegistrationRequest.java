@@ -28,5 +28,5 @@ public record RegistrationRequest(
         String password,
 
         @Valid
-        AddressRequest fullAddress
+        LocationRequest fullAddress
 ) {}
