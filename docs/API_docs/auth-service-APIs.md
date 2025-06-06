@@ -33,7 +33,7 @@ Simple endpoint to check if the User service is running properly.
 ### Success Response – 200
 
 ```json
-"User service test successful"
+"User service running successfully"
 ```
 
 ---
