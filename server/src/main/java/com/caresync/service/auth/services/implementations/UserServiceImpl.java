@@ -3,16 +3,20 @@ package com.caresync.service.auth.services.implementations;
 import com.caresync.service.auth.clients.LocationClient;
 import com.caresync.service.auth.dtos.data.Location;
 import com.caresync.service.auth.dtos.request.LocationRequest;
+import com.caresync.service.auth.dtos.request.LoginRequest;
 import com.caresync.service.auth.dtos.request.RegistrationRequest;
 import com.caresync.service.auth.dtos.response.LocationResponse;
 import com.caresync.service.auth.dtos.response.UserResponse;
 import com.caresync.service.auth.entities.User;
 import com.caresync.service.auth.repositories.UserRepository;
 import com.caresync.service.auth.services.abstractions.UserService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -40,6 +44,17 @@ public class UserServiceImpl implements UserService {
     public UserResponse getUserById(String userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+        return mapToResponse(user, null);
+    }
+
+    @Override
+    @Transactional
+    public UserResponse loginUser(LoginRequest loginRequest) {
+        if (!userRepository.existsById(loginRequest.userId())) {
+            throw new EntityNotFoundException("No user found with ID: " + loginRequest.userId());
+        }
+
+        User user = userRepository.findById(loginRequest.userId()).isPresent() ? userRepository.findById(loginRequest.userId()).get() : null;
         return mapToResponse(user, null);
     }
 

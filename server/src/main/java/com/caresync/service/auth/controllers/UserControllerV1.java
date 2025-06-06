@@ -31,8 +31,9 @@ public class UserControllerV1 {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@Valid @RequestBody LoginRequest loginRequest){
-        return ResponseEntity.ok("User login test successful");
+    public ResponseEntity<UserResponse> login(@Valid @RequestBody LoginRequest loginRequest){
+        UserResponse userResponse = userService.loginUser(loginRequest);
+        return ResponseEntity.ok(userResponse);
     }
 
     @PostMapping("/register")
