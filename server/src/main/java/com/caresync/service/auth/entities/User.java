@@ -31,10 +31,10 @@ public class User {
     private String passwordHash;
 
     @Column(name = "location_id", unique = true)
-    private String locationId; // Just stores the foreign ID
+    private String locationId;
 
     @Transient
-    private Location location; // Optional: For mapping fetched location data
+    private Location location;
 
     public User(String userId, String name, String email, String passwordHash) {
         this.id = userId;
@@ -42,4 +42,13 @@ public class User {
         this.email = email;
         this.passwordHash = passwordHash;
     }
+
+    public User(String userId, String name, String email, String passwordHash, String locationId) {
+        this.id = userId;
+        this.name = name;
+        this.email = email;
+        this.passwordHash = passwordHash;
+        this.locationId = locationId;
+    }
+
 }

@@ -1,25 +1,29 @@
 package com.caresync.service.auth.dtos.request;
 
+import com.caresync.service.auth.dtos.data.Location;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 public record RegistrationRequest(
 
-        @NotBlank(message = "User ID cannot be blank")
+        @NotNull(message = "User ID cannot be blank")
         String userId,
 
-        @NotBlank(message = "Requires access token for registration")
+        @NotNull(message = "Requires access token for registration")
         String accessToken,
 
-        @NotBlank(message = "Name cannot be blank")
+        @NotNull(message = "Name cannot be blank")
         @Size(min = 2, max = 100, message = "Name must be between 2 and 100 characters long.")
         String name,
 
-        @NotBlank(message = "Email cannot be blank")
+        @NotNull(message = "Email cannot be blank")
         @Email(message = "Email should be valid")
         String email,
 
-        @NotBlank(message = "Password cannot be blank")
+        @NotNull(message = "Password cannot be blank")
         @Size(min = 8, max = 32, message = "Password must be between 8 and 32 characters long.")
         @Pattern(
                 regexp = "^(?=.*[0-9])(?=.*[!@#$%^&*(),.?\":{}|<>]).{8,}$",
@@ -28,5 +32,5 @@ public record RegistrationRequest(
         String password,
 
         @Valid
-        LocationRequest fullAddress
+        Location location
 ) {}
