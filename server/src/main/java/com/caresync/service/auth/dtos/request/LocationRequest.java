@@ -2,8 +2,9 @@ package com.caresync.service.auth.dtos.request;
 
 import com.caresync.service.auth.enums.LOCATION_TYPE;
 import jakarta.validation.constraints.*;
+import lombok.Builder;
 
-
+@Builder
 public record LocationRequest(
         Long id,
         @NotNull(message = "Location type must be provided")

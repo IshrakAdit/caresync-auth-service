@@ -5,7 +5,7 @@ import com.caresync.service.auth.dtos.response.UserResponse;
 
 public interface UserService {
 
-    void registerUser(RegistrationRequest registrationRequest);
+    UserResponse registerUser(RegistrationRequest registrationRequest);
     UserResponse getUserById(String userId);
 
 }

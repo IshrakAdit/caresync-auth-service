@@ -2,10 +2,13 @@ package com.caresync.service.auth.controllers;
 
 import com.caresync.service.auth.dtos.request.LoginRequest;
 import com.caresync.service.auth.dtos.request.RegistrationRequest;
+import com.caresync.service.auth.dtos.response.LocationResponse;
 import com.caresync.service.auth.dtos.response.UserResponse;
 import com.caresync.service.auth.services.abstractions.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,8 +36,8 @@ public class UserControllerV1 {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Void> register(@Valid @RequestBody RegistrationRequest registrationRequest){
-        userService.registerUser(registrationRequest);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<UserResponse> register(@Valid @RequestBody RegistrationRequest registrationRequest){
+        UserResponse newUserResponse = userService.registerUser(registrationRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newUserResponse);
     }
 }
