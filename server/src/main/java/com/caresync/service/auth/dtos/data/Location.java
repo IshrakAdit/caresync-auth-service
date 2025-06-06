@@ -1,7 +1,6 @@
 package com.caresync.service.auth.dtos.data;
 
 import com.caresync.service.auth.enums.LOCATION_TYPE;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
