@@ -1,21 +1,21 @@
 package com.caresync.service.auth.dtos.request;
 
+import com.caresync.service.auth.enums.LOCATION_TYPE;
 import jakarta.validation.constraints.*;
 
+
 public record LocationRequest(
-
-        @NotBlank(message = "Address cannot be blank")
-        @Size(min = 2, max = 100, message = "Address must be between 2 and 100 characters")
+        Long id,
+        @NotNull(message = "Location type must be provided")
+        LOCATION_TYPE locationType,
         String address,
-
         String thana,
-
-        @NotBlank(message = "PO cannot be blank")
         String po,
-
-        @NotBlank(message = "City cannot be blank")
+        @NotNull(message = "City must be provided")
         String city,
-
-        @NotBlank(message = "Postal code cannot be blank")
-        String postalCode
+        @NotNull(message = "Postal code must be provided")
+        Long postalCode,
+        @NotNull(message = "Zone ID must be provided")
+        Long zoneId
 ) {}
+

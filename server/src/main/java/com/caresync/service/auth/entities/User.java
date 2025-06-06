@@ -31,7 +31,7 @@ public class User {
     private String passwordHash;
 
     @Column(name = "location_id", unique = true)
-    private String locationId;
+    private Long locationId;
 
     @Transient
     private Location location;
@@ -43,7 +43,7 @@ public class User {
         this.passwordHash = passwordHash;
     }
 
-    public User(String userId, String name, String email, String passwordHash, String locationId) {
+    public User(String userId, String name, String email, String passwordHash, Long locationId) {
         this.id = userId;
         this.name = name;
         this.email = email;
