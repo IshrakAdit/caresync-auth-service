@@ -69,15 +69,15 @@ public class UserServiceImpl implements UserService {
             throw new DataIntegrityViolationException("User already exists with ID: " + registrationRequest.userId());
         }
 
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        if (authentication instanceof JwtAuthenticationToken jwtToken) {
-//            Jwt jwt = jwtToken.getToken();
-//            String email = jwt.getClaimAsString("email");
-//            String userId = jwt.getSubject();
-//
-//            System.out.println("Email: " + email);
-//            System.out.println("UserId: " + userId);
-//        }
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication instanceof JwtAuthenticationToken jwtToken) {
+            Jwt jwt = jwtToken.getToken();
+            String email = jwt.getClaimAsString("email");
+            String userId = jwt.getSubject();
+
+            System.out.println("Email: " + email);
+            System.out.println("UserId: " + userId);
+        }
 
         try {
             Location location = registrationRequest.location();
