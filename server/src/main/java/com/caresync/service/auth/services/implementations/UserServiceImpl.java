@@ -10,17 +10,14 @@ import com.caresync.service.auth.dtos.response.UserResponse;
 import com.caresync.service.auth.entities.User;
 import com.caresync.service.auth.repositories.UserRepository;
 import com.caresync.service.auth.services.abstractions.UserService;
+import com.caresync.service.auth.utils.SecurityUtil;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -69,22 +66,26 @@ public class UserServiceImpl implements UserService {
             throw new DataIntegrityViolationException("User already exists with ID: " + registrationRequest.userId());
         }
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("Authentication: " + authentication);
-        System.out.println("Authentication type: " + (authentication != null ? authentication.getClass().getSimpleName() : "null"));
-
-        if (authentication instanceof JwtAuthenticationToken jwtToken) {
-            Jwt jwt = jwtToken.getToken();
-            System.out.println("JWT claims: " + jwt.getClaims());
-
-            String email = jwt.getClaimAsString("email");
-            String userId = jwt.getSubject();
-
-            System.out.println("Email: " + email);
-            System.out.println("UserId: " + userId);
-        } else {
-            System.out.println("Not a JwtAuthenticationToken");
-        }
+        Jwt jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String email = jwt.getClaim("email");
+        System.out.println("Email: " + email);
+        System.out.println("Username: " + SecurityUtil.getName());
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        System.out.println("Authentication: " + authentication);
+//        System.out.println("Authentication type: " + (authentication != null ? authentication.getClass().getSimpleName() : "null"));
+//
+//        if (authentication instanceof JwtAuthenticationToken jwtToken) {
+//            Jwt jwt = jwtToken.getToken();
+//            System.out.println("JWT claims: " + jwt.getClaims());
+//
+//            String email = jwt.getClaimAsString("email");
+//            String userId = jwt.getSubject();
+//
+//            System.out.println("Email: " + email);
+//            System.out.println("UserId: " + userId);
+//        } else {
+//            System.out.println("Not a JwtAuthenticationToken");
+//        }
 
         try {
             Location location = registrationRequest.location();
