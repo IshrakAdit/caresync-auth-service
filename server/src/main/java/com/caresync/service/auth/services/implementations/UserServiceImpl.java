@@ -13,6 +13,10 @@ import com.caresync.service.auth.services.abstractions.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -64,6 +68,16 @@ public class UserServiceImpl implements UserService {
         if (userRepository.existsById(registrationRequest.userId())) {
             throw new DataIntegrityViolationException("User already exists with ID: " + registrationRequest.userId());
         }
+
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        if (authentication instanceof JwtAuthenticationToken jwtToken) {
+//            Jwt jwt = jwtToken.getToken();
+//            String email = jwt.getClaimAsString("email");
+//            String userId = jwt.getSubject();
+//
+//            System.out.println("Email: " + email);
+//            System.out.println("UserId: " + userId);
+//        }
 
         try {
             Location location = registrationRequest.location();
