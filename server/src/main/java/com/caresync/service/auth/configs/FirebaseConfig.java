@@ -3,27 +3,35 @@ package com.caresync.service.auth.configs;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 @Configuration
 public class FirebaseConfig {
 
+    @Value("${FIREBASE_CREDENTIAL}")
+    private String firebaseCredentialsBase64;
+
     @Bean
-    public FirebaseApp firebaseApp() throws IOException {
+    public FirebaseApp initializeFirebase() throws IOException {
         if (FirebaseApp.getApps().isEmpty()) {
-            InputStream serviceAccount = getClass().getClassLoader()
-                    .getResourceAsStream("firebase/firebase-adminsdk.json");
+            // Decode Base64 string to obtain the JSON content
+            byte[] decodedBytes = Base64.getDecoder().decode(firebaseCredentialsBase64);
+            String credentialsJson = new String(decodedBytes, StandardCharsets.UTF_8);
 
-            if (serviceAccount == null) {
-                throw new IOException("Firebase credential file not found in classpath.");
-            }
+            // Create credentials instance from the JSON
+            ByteArrayInputStream credentialsStream = new ByteArrayInputStream(decodedBytes);
+            GoogleCredentials credentials = GoogleCredentials.fromStream(credentialsStream);
 
+            // Initialize Firebase with the credentials
             FirebaseOptions options = FirebaseOptions.builder()
-                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                    .setCredentials(credentials)
                     .build();
 
             return FirebaseApp.initializeApp(options);
