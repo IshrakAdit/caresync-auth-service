@@ -70,13 +70,20 @@ public class UserServiceImpl implements UserService {
         }
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("Authentication: " + authentication);
+        System.out.println("Authentication type: " + (authentication != null ? authentication.getClass().getSimpleName() : "null"));
+
         if (authentication instanceof JwtAuthenticationToken jwtToken) {
             Jwt jwt = jwtToken.getToken();
+            System.out.println("JWT claims: " + jwt.getClaims());
+
             String email = jwt.getClaimAsString("email");
             String userId = jwt.getSubject();
 
             System.out.println("Email: " + email);
             System.out.println("UserId: " + userId);
+        } else {
+            System.out.println("Not a JwtAuthenticationToken");
         }
 
         try {
