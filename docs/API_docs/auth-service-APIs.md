@@ -99,12 +99,20 @@ Fetches user details using the user's ID.
 
 Logs a user into the system.
 
+### Request Headers
+
+```json
+{
+  "Content-Type": "application/json",
+  "Authorization": "Bearer <token>"
+}
+```
+
 ### Request Body
 
 ```json
 {
-  "userId": "user-1",
-  "accessToken": "accessToken"
+  "userId": "user-1"
 }
 ```
 
@@ -155,12 +163,20 @@ Logs a user into the system.
 
 Registers a new user.
 
+### Request Headers
+
+```json
+{
+  "Content-Type": "application/json",
+  "Authorization": "Bearer <token>"
+}
+```
+
 ### Request Body
 
 ```json
 {
   "userId": "user-1",
-  "accessToken": "accessToken",
   "name": "John Doe",
   "email": "demodemo@gmail.com",
   "password": "john@123",
