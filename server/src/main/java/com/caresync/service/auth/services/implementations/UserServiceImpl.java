@@ -66,10 +66,10 @@ public class UserServiceImpl implements UserService {
             throw new DataIntegrityViolationException("User already exists with ID: " + registrationRequest.userId());
         }
 
-//        Jwt jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        String email = jwt.getClaim("email");
-//        System.out.println("Email: " + email);
-//        System.out.println("Username: " + SecurityUtil.getName());
+        Jwt jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String email = jwt.getClaim("email");
+        System.out.println("Email: " + email);
+        System.out.println("Username: " + SecurityUtil.getName());
 
 //        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //        System.out.println("Authentication: " + authentication);
