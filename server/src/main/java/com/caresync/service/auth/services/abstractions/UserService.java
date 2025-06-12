@@ -11,5 +11,6 @@ public interface UserService {
     UserResponse loginUser(LoginRequest loginRequest);
     UserResponse registerUser(RegistrationRequest registrationRequest);
     UserResponse updateUser(UpdateUserRequest updateUserRequest);
+    void deleteUser(String userId);
 
 }

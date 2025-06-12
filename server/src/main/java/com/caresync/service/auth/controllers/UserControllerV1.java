@@ -3,13 +3,11 @@ package com.caresync.service.auth.controllers;
 import com.caresync.service.auth.dtos.request.LoginRequest;
 import com.caresync.service.auth.dtos.request.RegistrationRequest;
 import com.caresync.service.auth.dtos.request.UpdateUserRequest;
-import com.caresync.service.auth.dtos.response.LocationResponse;
 import com.caresync.service.auth.dtos.response.UserResponse;
 import com.caresync.service.auth.services.abstractions.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,4 +46,11 @@ public class UserControllerV1 {
         UserResponse updatedUserResponse = userService.updateUser(updateUserRequest);
         return ResponseEntity.ok(updatedUserResponse);
     }
+
+    @DeleteMapping("/delete/{userId}")
+    public ResponseEntity<String> deleteUserById(@PathVariable String userId) {
+        userService.deleteUser(userId);
+        return ResponseEntity.ok("User was deleted successfully");
+    }
+
 }
