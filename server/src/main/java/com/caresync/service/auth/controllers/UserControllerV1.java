@@ -2,6 +2,7 @@ package com.caresync.service.auth.controllers;
 
 import com.caresync.service.auth.dtos.request.LoginRequest;
 import com.caresync.service.auth.dtos.request.RegistrationRequest;
+import com.caresync.service.auth.dtos.request.UpdateUserRequest;
 import com.caresync.service.auth.dtos.response.LocationResponse;
 import com.caresync.service.auth.dtos.response.UserResponse;
 import com.caresync.service.auth.services.abstractions.UserService;
@@ -40,5 +41,11 @@ public class UserControllerV1 {
     public ResponseEntity<UserResponse> register(@Valid @RequestBody RegistrationRequest registrationRequest){
         UserResponse newUserResponse = userService.registerUser(registrationRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(newUserResponse);
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<UserResponse> updateUser(@Valid @RequestBody UpdateUserRequest updateUserRequest){
+        UserResponse updatedUserResponse = userService.updateUser(updateUserRequest);
+        return ResponseEntity.ok(updatedUserResponse);
     }
 }
