@@ -25,9 +25,7 @@ public class User {
     @Email(message = "Provide a valid email")
     private String email;
 
-    @Column(name = "password_hash", nullable = false)
-    @NotBlank(message = "Password cannot be blank")
-    @Size(min = 8, message = "Password must be at least 8 characters long")
+    @Column(name = "password_hash")
     private String passwordHash;
 
     @Column(name = "location_id", unique = true)
