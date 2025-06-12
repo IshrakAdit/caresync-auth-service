@@ -5,6 +5,7 @@ import com.caresync.service.auth.dtos.data.Location;
 import com.caresync.service.auth.dtos.request.LocationRequest;
 import com.caresync.service.auth.dtos.request.LoginRequest;
 import com.caresync.service.auth.dtos.request.RegistrationRequest;
+import com.caresync.service.auth.dtos.request.UpdateUserRequest;
 import com.caresync.service.auth.dtos.response.LocationResponse;
 import com.caresync.service.auth.dtos.response.UserResponse;
 import com.caresync.service.auth.entities.User;
@@ -120,5 +121,24 @@ public class UserServiceImpl implements UserService {
             throw new DataIntegrityViolationException("Failed to register user: " + e.getMessage());
         }
     }
+
+    @Override
+    public UserResponse updateUser(UpdateUserRequest updateUserRequest) {
+        User user = userRepository.findById(updateUserRequest.id())
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + updateUserRequest.id()));
+
+        if (updateUserRequest.name() != null) {
+            user.setName(updateUserRequest.name());
+        }
+        if (updateUserRequest.email() != null) {
+            user.setEmail(updateUserRequest.email());
+        }
+        if (updateUserRequest.passwordHash() != null) {
+            user.setPasswordHash(updateUserRequest.passwordHash());
+        }
+
+        return mapToResponse(userRepository.save(user), null);
+    }
+
 
 }
