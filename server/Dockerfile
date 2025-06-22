@@ -6,9 +6,10 @@ WORKDIR /app
 
 COPY mvnw .
 COPY .mvn .mvn
-RUN chmod +x mvnw
-
 COPY . .
+
+# Set executable permission after copying all files
+RUN chmod +x mvnw
 
 EXPOSE 8081
 
