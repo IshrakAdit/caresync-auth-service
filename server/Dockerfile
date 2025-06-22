@@ -12,6 +12,5 @@ COPY . .
 
 EXPOSE 8081
 
-RUN ./mvnw clean package -DskipTests
+CMD ["./mvnw", "spring-boot:run"]
 
-CMD ["java", "-jar", "target/*.jar"]
