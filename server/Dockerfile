@@ -1,9 +1,17 @@
 FROM openjdk:17-jdk-alpine
 
+RUN apk add --no-cache bash maven
+
 WORKDIR /app
 
-COPY target/*.jar app.jar
+COPY mvnw .
+COPY .mvn .mvn
+RUN chmod +x mvnw
+
+COPY . .
 
 EXPOSE 8081
 
-CMD ["java", "-jar", "app.jar"]
+# RUN ./mvnw clean package -DskipTests
+
+CMD ["./mvnw", "spring-boot:run"]
