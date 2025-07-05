@@ -1,33 +1,65 @@
-name: Run Spring Boot Tests
+name: Auth Service Unit & Mock Tests
 
 on:
-  # push:
-  #   branches: [main]
+  push:
+    branches: [tabib]
   workflow_dispatch:
 
 jobs:
-  test:
+  unit-tests:
     runs-on: ubuntu-latest
+    name: Run Unit & Mock Tests
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: "temurin"
-          java-version: "17"
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
-      - name: Cache Maven packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
+      - name: Create test results directory
+        run: mkdir -p test-results
 
-      - name: Run tests with Maven
+      - name: Build Auth Service Test Image
         run: |
-          cd server
-          mvn clean test
+          cd services/auth/server
+          docker build -f Dockerfile.test -t auth-service-test .
+
+      - name: Run Auth Service Unit Tests
+        run: |
+          docker run --rm \
+            -v $(pwd)/test-results:/test-results \
+            -v $(pwd)/services/auth/server/target/surefire-reports:/app/target/surefire-reports \
+            -e SPRING_PROFILES_ACTIVE=test \
+            auth-service-test ./mvnw test -Dtest=UserServiceImplTest
+
+      - name: Run All Auth Service Tests
+        run: |
+          docker run --rm \
+            -v $(pwd)/test-results:/test-results \
+            -v $(pwd)/services/auth/server/target/surefire-reports:/app/target/surefire-reports \
+            -e SPRING_PROFILES_ACTIVE=test \
+            auth-service-test ./mvnw test
+
+      - name: Upload Test Results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: auth-service-test-results
+          path: |
+            services/auth/server/target/surefire-reports/
+            test-results/
+          retention-days: 30
+
+      - name: Display Test Summary
+        if: always()
+        run: |
+          echo "=== Auth Service Test Summary ==="
+          if [ -d "services/auth/server/target/surefire-reports" ]; then
+            echo "Test reports generated:"
+            ls -la services/auth/server/target/surefire-reports/
+          fi
+          echo "=== Test Results ==="
+          if [ -d "test-results" ]; then
+            ls -la test-results/
+          fi
