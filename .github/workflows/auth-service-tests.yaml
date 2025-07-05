@@ -3,6 +3,8 @@ name: Auth Service Unit & Mock Tests
 on:
   push:
     branches: [tabib]
+  pull_request:
+    branches: [tabib]
   workflow_dispatch:
 
 jobs:
@@ -18,33 +20,54 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Create test results directory
-        run: mkdir -p test-results
+        run: |
+          mkdir -p test-results
+          mkdir -p services/auth/server/target/surefire-reports
 
       - name: Build Auth Service Test Image
+        working-directory: services/auth/server
         run: |
-          docker build -f services/auth/server/Dockerfile.test -t auth-service-test services/auth/server
+          echo "Building Docker test image..."
+          docker build -f Dockerfile.test -t auth-service-test .
+          echo "Docker image built successfully"
 
-      - name: Run Auth Service Unit Tests
+      - name: Run Auth Service Unit Tests (UserServiceImplTest)
         run: |
+          echo "Running specific unit tests for UserServiceImplTest..."
           docker run --rm \
-            -v $(pwd)/test-results:/test-results \
-            -v $(pwd)/services/auth/server/target/surefire-reports:/app/target/surefire-reports \
+            -v ${{ github.workspace }}/test-results:/test-results \
+            -v ${{ github.workspace }}/services/auth/server/target/surefire-reports:/app/target/surefire-reports \
             -e SPRING_PROFILES_ACTIVE=test \
+            -e MAVEN_OPTS="-Xmx512m" \
             auth-service-test ./mvnw test -Dtest=UserServiceImplTest
+          echo "Unit tests completed"
 
       - name: Run All Auth Service Tests
         run: |
+          echo "Running all auth service tests..."
           docker run --rm \
-            -v $(pwd)/test-results:/test-results \
-            -v $(pwd)/services/auth/server/target/surefire-reports:/app/target/surefire-reports \
+            -v ${{ github.workspace }}/test-results:/test-results \
+            -v ${{ github.workspace }}/services/auth/server/target/surefire-reports:/app/target/surefire-reports \
             -e SPRING_PROFILES_ACTIVE=test \
+            -e MAVEN_OPTS="-Xmx512m" \
             auth-service-test ./mvnw test
+          echo "All tests completed"
+
+      - name: List Test Results
+        if: always()
+        run: |
+          echo "=== Test Results Directory ==="
+          ls -la test-results/ || echo "No test-results directory found"
+          echo "=== Surefire Reports Directory ==="
+          ls -la services/auth/server/target/surefire-reports/ || echo "No surefire-reports directory found"
+          echo "=== Target Directory ==="
+          ls -la services/auth/server/target/ || echo "No target directory found"
 
       - name: Upload Test Results
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: auth-service-test-results
+          name: auth-service-test-results-${{ github.run_number }}
           path: |
             services/auth/server/target/surefire-reports/
             test-results/
@@ -54,11 +77,34 @@ jobs:
         if: always()
         run: |
           echo "=== Auth Service Test Summary ==="
+          echo "Workflow run: ${{ github.run_number }}"
+          echo "Triggered by: ${{ github.event_name }}"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Commit: ${{ github.sha }}"
+          
           if [ -d "services/auth/server/target/surefire-reports" ]; then
-            echo "Test reports generated:"
-            ls -la services/auth/server/target/surefire-reports/
+            echo "✅ Test reports generated successfully"
+            echo "Number of test report files: $(find services/auth/server/target/surefire-reports -name "*.xml" | wc -l)"
+          else
+            echo "❌ No test reports found"
           fi
-          echo "=== Test Results ==="
-          if [ -d "test-results" ]; then
-            ls -la test-results/
+          
+          echo "=== Docker Images ==="
+          docker images | grep auth-service-test || echo "No auth-service-test images found"
+
+      - name: Test Results Summary
+        if: always()
+        run: |
+          echo "## Test Results Summary" >> $GITHUB_STEP_SUMMARY
+          echo "| Metric | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Workflow | ${{ github.workflow }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Run Number | ${{ github.run_number }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Branch | ${{ github.ref_name }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Commit | ${{ github.sha }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Status | ${{ job.status }} |" >> $GITHUB_STEP_SUMMARY
+          
+          if [ -d "services/auth/server/target/surefire-reports" ]; then
+            TEST_FILES=$(find services/auth/server/target/surefire-reports -name "*.xml" | wc -l)
+            echo "| Test Report Files | $TEST_FILES |" >> $GITHUB_STEP_SUMMARY
           fi
