@@ -25,10 +25,12 @@ jobs:
           mkdir -p services/auth/server/target/surefire-reports
 
       - name: Build Auth Service Test Image
-        working-directory: services/auth/server
         run: |
           echo "Building Docker test image..."
-          docker build -f Dockerfile.test -t auth-service-test .
+          echo "Current directory: $(pwd)"
+          echo "Listing services/auth/server directory:"
+          ls -la services/auth/server/
+          docker build -f services/auth/server/Dockerfile.test -t auth-service-test services/auth/server
           echo "Docker image built successfully"
 
       - name: Run Auth Service Unit Tests (UserServiceImplTest)
