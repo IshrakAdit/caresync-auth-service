@@ -6,6 +6,8 @@ import com.google.firebase.FirebaseOptions;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+import org.springframework.core.env.Environment;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -19,6 +21,7 @@ public class FirebaseConfig {
     private String firebaseCredentialsBase64;
 
     @Bean
+    @Profile("!e2e-test") // Skip Firebase initialization during E2E tests
     public FirebaseApp initializeFirebase() throws IOException {
         if (FirebaseApp.getApps().isEmpty()) {
             // Decode Base64 string to obtain the JSON content
@@ -39,4 +42,7 @@ public class FirebaseConfig {
             return FirebaseApp.getInstance();
         }
     }
+
+    // No FirebaseApp bean for E2E tests - let it be null
+    // The FirebaseJwtDecoder will handle null gracefully
 }

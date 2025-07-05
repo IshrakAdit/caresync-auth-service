@@ -1,0 +1,26 @@
+FROM openjdk:17-jdk-alpine
+
+# Install bash and maven for test execution
+RUN apk add --no-cache bash maven curl
+
+WORKDIR /app
+
+# Copy the entire project
+COPY . .
+
+# Make mvnw executable
+RUN chmod +x ./mvnw
+
+# Create directories for test reports
+RUN mkdir -p target/surefire-reports
+RUN mkdir -p /test-results
+
+# Set environment variables for testing
+ENV SPRING_PROFILES_ACTIVE=test
+ENV MAVEN_OPTS="-Xmx512m"
+
+# Expose port for debugging if needed
+EXPOSE 8081
+
+# Default command - can be overridden in docker-compose
+CMD ["./mvnw", "test"] 

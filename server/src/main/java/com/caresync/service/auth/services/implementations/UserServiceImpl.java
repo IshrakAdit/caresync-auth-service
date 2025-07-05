@@ -49,11 +49,8 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserResponse loginUser(LoginRequest loginRequest) {
-        if (!userRepository.existsById(loginRequest.userId())) {
-            throw new EntityNotFoundException("No user found with ID: " + loginRequest.userId());
-        }
-
-        User user = userRepository.findById(loginRequest.userId()).isPresent() ? userRepository.findById(loginRequest.userId()).get() : null;
+        User user = userRepository.findById(loginRequest.userId())
+                .orElseThrow(() -> new EntityNotFoundException("No user found with ID: " + loginRequest.userId()));
         return mapToResponse(user, null);
     }
 
