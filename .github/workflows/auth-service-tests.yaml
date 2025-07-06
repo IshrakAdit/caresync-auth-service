@@ -2,9 +2,9 @@ name: Unit tests for CareSync auth service
 
 on:
   push:
-    branches: [tabib]
-  pull_request:
-    branches: [tabib]
+    branches: [main]
+  # pull_request:
+  #   branches: [main]
   workflow_dispatch:
 
 jobs:
