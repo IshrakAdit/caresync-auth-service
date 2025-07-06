@@ -1,4 +1,4 @@
-name: Auth Service Unit & Mock Tests
+name: Unit tests for CareSync auth service
 
 on:
   push:
@@ -62,12 +62,12 @@ jobs:
           echo "Triggered by: ${{ github.event_name }}"
           echo "Branch: ${{ github.ref_name }}"
           echo "Commit: ${{ github.sha }}"
-          
+
           if [ -d "server/target/surefire-reports" ]; then
-            echo "✅ Test reports generated successfully"
+            echo "Test reports generated successfully"
             echo "Number of test report files: $(find server/target/surefire-reports -name "*.xml" | wc -l)"
           else
-            echo "❌ No test reports found"
+            echo "No test reports found"
           fi
 
       - name: Test Results Summary
@@ -80,7 +80,7 @@ jobs:
           echo "| Run Number | ${{ github.run_number }} |" >> $GITHUB_STEP_SUMMARY
           echo "| Branch | ${{ github.ref_name }} |" >> $GITHUB_STEP_SUMMARY
           echo "| Status | ${{ job.status }} |" >> $GITHUB_STEP_SUMMARY
-          
+
           if [ -d "server/target/surefire-reports" ]; then
             TEST_FILES=$(find server/target/surefire-reports -name "*.xml" | wc -l)
             echo "| Test Report Files | $TEST_FILES |" >> $GITHUB_STEP_SUMMARY
