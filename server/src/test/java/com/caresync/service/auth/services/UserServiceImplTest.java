@@ -615,4 +615,6 @@ public class UserServiceImplTest {
     public static void destroy() {
         System.out.println("AfterAll - Test suite completed");
     }
+
+    // hola
 }
