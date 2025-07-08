@@ -1,6 +1,7 @@
 package com.caresync.service.auth.entities;
 
 import com.caresync.service.auth.dtos.data.Location;
+import com.caresync.service.auth.enums.ROLE;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -28,24 +29,29 @@ public class User {
     @Column(name = "password_hash")
     private String passwordHash;
 
+    @NotBlank(message = "Role cannot be blank")
+    private ROLE role;
+
     @Column(name = "location_id", unique = true)
     private Long locationId;
 
     @Transient
     private Location location;
 
-    public User(String userId, String name, String email, String passwordHash) {
+    public User(String userId, String name, String email, String passwordHash, ROLE role) {
         this.id = userId;
         this.name = name;
         this.email = email;
         this.passwordHash = passwordHash;
+        this.role = role;
     }
 
-    public User(String userId, String name, String email, String passwordHash, Long locationId) {
+    public User(String userId, String name, String email, String passwordHash, ROLE role, Long locationId) {
         this.id = userId;
         this.name = name;
         this.email = email;
         this.passwordHash = passwordHash;
+        this.role = role;
         this.locationId = locationId;
     }
 

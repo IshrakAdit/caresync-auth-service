@@ -1,6 +1,7 @@
 package com.caresync.service.auth.dtos.request;
 
 import com.caresync.service.auth.dtos.data.Location;
+import com.caresync.service.auth.enums.ROLE;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -11,9 +12,6 @@ public record RegistrationRequest(
 
         @NotNull(message = "User ID cannot be blank")
         String userId,
-
-        @NotNull(message = "Requires access token for registration")
-        String accessToken,
 
         @NotNull(message = "Name cannot be blank")
         @Size(min = 2, max = 100, message = "Name must be between 2 and 100 characters long.")
@@ -30,6 +28,8 @@ public record RegistrationRequest(
                 message = "Password must include at least one number and one special character."
         )
         String password,
+
+        ROLE role,
 
         @Valid
         Location location
