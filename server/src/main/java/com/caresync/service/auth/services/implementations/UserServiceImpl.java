@@ -9,6 +9,7 @@ import com.caresync.service.auth.dtos.request.UpdateUserRequest;
 import com.caresync.service.auth.dtos.response.LocationResponse;
 import com.caresync.service.auth.dtos.response.UserResponse;
 import com.caresync.service.auth.entities.User;
+import com.caresync.service.auth.enums.ROLE;
 import com.caresync.service.auth.repositories.UserRepository;
 import com.caresync.service.auth.services.abstractions.UserService;
 import jakarta.persistence.EntityNotFoundException;
@@ -33,6 +34,7 @@ public class UserServiceImpl implements UserService {
                 .id(user.getId())
                 .name(user.getName())
                 .email(user.getEmail())
+                .role(user.getRole())
                 .locationResponse(locationResponse)
                 .build();
     }
@@ -75,12 +77,16 @@ public class UserServiceImpl implements UserService {
                     .build();
 
             LocationResponse locationResponse = locationClient.createLocation(locationRequest);
+            ROLE assignedRole = registrationRequest.role() != null && registrationRequest.role().equals(ROLE.ADMIN)
+                    ? ROLE.ADMIN
+                    : ROLE.DEFAULT;
 
             User newUser = User.builder()
                     .id(registrationRequest.userId())
                     .name(registrationRequest.name())
                     .email(registrationRequest.email())
                     .passwordHash(registrationRequest.password())
+                    .role(assignedRole)
                     .locationId(locationResponse.id())
                     .build();
 
