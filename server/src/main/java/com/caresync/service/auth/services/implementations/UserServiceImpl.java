@@ -118,6 +118,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean verifyAdminById(String userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+
+        return user.getRole().equals(ROLE.ADMIN);
+    }
+
+    @Override
     public void deleteUser(String userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));

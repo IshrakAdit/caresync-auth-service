@@ -12,5 +12,6 @@ public interface UserService {
     UserResponse registerUser(RegistrationRequest registrationRequest);
     UserResponse updateUser(UpdateUserRequest updateUserRequest);
     void deleteUser(String userId);
+    boolean verifyAdminById(String userId);
 
 }

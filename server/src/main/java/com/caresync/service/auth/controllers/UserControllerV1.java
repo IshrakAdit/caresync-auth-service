@@ -53,4 +53,10 @@ public class UserControllerV1 {
         return ResponseEntity.ok("User was deleted successfully");
     }
 
+    @GetMapping("/verify-admin/{userId}")
+    public ResponseEntity<String> verifyAdminById(@PathVariable String userId) {
+        userService.deleteUser(userId);
+        return ResponseEntity.ok("User was deleted successfully");
+    }
+
 }
