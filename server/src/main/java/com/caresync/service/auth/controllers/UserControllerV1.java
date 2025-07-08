@@ -55,8 +55,9 @@ public class UserControllerV1 {
 
     @GetMapping("/verify-admin/{userId}")
     public ResponseEntity<String> verifyAdminById(@PathVariable String userId) {
-        userService.deleteUser(userId);
-        return ResponseEntity.ok("User was deleted successfully");
+        if(userService.verifyAdminById(userId)) return ResponseEntity.ok("User is an admin.");
+        else return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body("User is not an admin.");
     }
 
 }
