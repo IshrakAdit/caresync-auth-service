@@ -26,7 +26,8 @@ public class User {
     @Email(message = "Provide a valid email")
     private String email;
 
-    @Column(name = "password_hash")
+    @Column(name = "password_hash", nullable = false)
+    @NotBlank(message = "Password cannot be blank")
     private String passwordHash;
 
     @NotBlank(message = "Role cannot be blank")
