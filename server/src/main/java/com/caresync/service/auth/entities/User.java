@@ -30,6 +30,8 @@ public class User {
     @NotBlank(message = "Password cannot be blank")
     private String passwordHash;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
     @NotBlank(message = "Role cannot be blank")
     private ROLE role;
 
