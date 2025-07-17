@@ -10,6 +10,7 @@ import com.caresync.service.auth.dtos.response.LocationResponse;
 import com.caresync.service.auth.dtos.response.UserResponse;
 import com.caresync.service.auth.entities.User;
 import com.caresync.service.auth.enums.LOCATION_TYPE;
+import com.caresync.service.auth.enums.ROLE;
 import com.caresync.service.auth.repositories.UserRepository;
 import com.caresync.service.auth.services.implementations.UserServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
@@ -89,14 +90,13 @@ public class UserServiceImplTest {
                 "access-token-123",
                 "John Doe",
                 "john.doe@example.com",
-                "password123!",
+                ROLE.DEFAULT,
                 testLocation
         );
 
         // Initialize test login request
         testLoginRequest = new LoginRequest(
-                "user123",
-                "access-token-123"
+                "user123"
         );
 
         // Initialize test update request
@@ -219,7 +219,7 @@ public class UserServiceImplTest {
 
         // Act & Assert
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
-            userService.loginUser(new LoginRequest("nonexistent", "access-token-123"));
+            userService.loginUser(new LoginRequest("nonexistent"));
         });
 
         assertEquals("No user found with ID: nonexistent", exception.getMessage());
@@ -510,7 +510,7 @@ public class UserServiceImplTest {
                 "access-token-123",
                 "",
                 "",
-                "",
+                ROLE.DEFAULT,
                 testLocation
         );
 
