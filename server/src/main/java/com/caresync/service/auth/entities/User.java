@@ -32,7 +32,7 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
-    @NotBlank(message = "Role cannot be blank")
+    @NotNull(message = "Role cannot be null")
     private ROLE role;
 
     @Column(name = "location_id", unique = true)
